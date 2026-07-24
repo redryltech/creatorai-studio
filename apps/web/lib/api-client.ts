@@ -66,13 +66,8 @@ async function request<T>(
 ): Promise<T> {
   const { method = 'GET', body, headers = {}, requireAuth = true } = options;
 
-  // Get auth token — in development, proceed without token
+  // Get auth token when available; backend may allow unauthenticated access in DEVELOPMENT_MODE
   const token = await getAuthToken();
-  const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
-
-  if (requireAuth && !token && !isDev) {
-    throw new ApiError('UNAUTHORIZED', 'Not authenticated', 401);
-  }
 
   const url = `${API_BASE_URL}${path}`;
   const fetchHeaders: Record<string, string> = {
@@ -84,11 +79,21 @@ async function request<T>(
     fetchHeaders['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(url, {
-    method,
-    headers: fetchHeaders,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  let response: Response;
+  try {
+    response = await fetch(url, {
+      method,
+      headers: fetchHeaders,
+      body: body ? JSON.stringify(body) : undefined,
+      mode: 'cors',
+    });
+  } catch {
+    throw new ApiError(
+      'NETWORK_ERROR',
+      `Failed to reach API at ${API_BASE_URL}. Check backend CORS and that the server is online.`,
+      0,
+    );
+  }
 
   // Parse response
   const responseData = await response.json().catch(() => null);
