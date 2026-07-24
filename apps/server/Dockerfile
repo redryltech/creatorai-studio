@@ -14,6 +14,7 @@ RUN npm install -g pnpm@9 tsx
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY tsconfig.base.json ./
 COPY packages ./packages
 COPY apps/server ./apps/server
 
