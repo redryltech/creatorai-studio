@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@creatorai/shared": "workspace:*",
+    "@creatorai/providers": "workspace:*",
     "zod": "^3.23.0"
   },
   "devDependencies": {
