@@ -11,7 +11,11 @@
 import { getClientAuth } from './firebase';
 import type { ApiResponse, ApiErrorResponse } from '@creatorai/shared';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api/v1';
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ??
+  (process.env.NODE_ENV === 'production'
+    ? 'https://laudable-youth-production.up.railway.app/api/v1'
+    : 'http://localhost:3001/api/v1');
 
 /**
  * API error thrown by the client.
