@@ -80,7 +80,7 @@ export default function ChatPage() {
     const latestMsg = useChatStore.getState().messages.at(-1);
     const meta = latestMsg?.metadata;
     if (meta?.pipelineId) {
-      const plan = meta.workflowPlan as any;
+      const plan = (meta as { workflowPlan?: { estimatedCostUsd?: number } }).workflowPlan;
       setActiveWorkflow({
         runId: meta.pipelineId,
         progress: 0,

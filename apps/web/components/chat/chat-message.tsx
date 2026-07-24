@@ -34,16 +34,16 @@ export function ChatMessage({ message, userName }: Props) {
         <div className="whitespace-pre-wrap">{message.content}</div>
 
         {/* Workflow plan info */}
-        {meta?.workflowPlan && (
+        {(meta as any)?.workflowPlan && (
           <div className="mt-3 pt-3 border-t border-white/10 space-y-2">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-xs font-medium opacity-90">Workflow started</span>
             </div>
             <div className="flex gap-3 text-xs opacity-70">
-              <span>⏱️ ~{Math.ceil((meta.workflowPlan as any).estimatedDurationSec / 60)}min</span>
-              <span>💰 ${((meta.workflowPlan as any).estimatedCostUsd ?? 0).toFixed(2)}</span>
-              <span>📦 {(meta.workflowPlan as any).nodeCount} steps</span>
+              <span>⏱️ ~{Math.ceil((meta as any).workflowPlan.estimatedDurationSec / 60)}min</span>
+              <span>💰 ${((meta as any).workflowPlan.estimatedCostUsd ?? 0).toFixed(2)}</span>
+              <span>📦 {(meta as any).workflowPlan.nodeCount} steps</span>
             </div>
           </div>
         )}
