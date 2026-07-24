@@ -18,8 +18,8 @@ export declare const chatMessageSchema: z.ZodObject<{
     }>, "many">>>;
     projectId: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    message: string;
     conversationId: string | null;
+    message: string;
     attachments: {
         type: string;
         url: string;
@@ -27,8 +27,8 @@ export declare const chatMessageSchema: z.ZodObject<{
     }[];
     projectId?: string | undefined;
 }, {
-    message: string;
     conversationId: string | null;
+    message: string;
     attachments?: {
         type: string;
         url: string;
@@ -84,6 +84,7 @@ export declare const createProjectSchema: z.ZodObject<{
     title: string;
     contentType: ContentType;
     targetPlatforms: Platform[];
+    description?: string | undefined;
     settings?: {
         aspectRatio?: AspectRatio | undefined;
         duration?: number | undefined;
@@ -93,7 +94,6 @@ export declare const createProjectSchema: z.ZodObject<{
         artStyle?: ArtStyle | undefined;
         subtitles?: boolean | undefined;
     } | undefined;
-    description?: string | undefined;
 }>;
 export declare const updateProjectSchema: z.ZodObject<{
     title: z.ZodOptional<z.ZodString>;
@@ -124,6 +124,8 @@ export declare const updateProjectSchema: z.ZodObject<{
         subtitles?: boolean | undefined;
     }>>;
 }, "strip", z.ZodTypeAny, {
+    title?: string | undefined;
+    description?: string | undefined;
     settings?: {
         aspectRatio?: AspectRatio | undefined;
         duration?: number | undefined;
@@ -133,9 +135,9 @@ export declare const updateProjectSchema: z.ZodObject<{
         artStyle?: ArtStyle | null | undefined;
         subtitles?: boolean | undefined;
     } | undefined;
-    title?: string | undefined;
-    description?: string | undefined;
 }, {
+    title?: string | undefined;
+    description?: string | undefined;
     settings?: {
         aspectRatio?: AspectRatio | undefined;
         duration?: number | undefined;
@@ -145,8 +147,6 @@ export declare const updateProjectSchema: z.ZodObject<{
         artStyle?: ArtStyle | null | undefined;
         subtitles?: boolean | undefined;
     } | undefined;
-    title?: string | undefined;
-    description?: string | undefined;
 }>;
 export declare const trendResearchSchema: z.ZodObject<{
     topic: z.ZodString;
@@ -157,16 +157,16 @@ export declare const trendResearchSchema: z.ZodObject<{
     niche: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     language: string;
-    count: number;
     topic: string;
     platforms: Platform[];
+    count: number;
     timeRange: "24h" | "7d" | "30d";
     niche?: string | undefined;
 }, {
     topic: string;
     language?: string | undefined;
-    count?: number | undefined;
     platforms?: Platform[] | undefined;
+    count?: number | undefined;
     timeRange?: "24h" | "7d" | "30d" | undefined;
     niche?: string | undefined;
 }>;
@@ -182,25 +182,25 @@ export declare const scriptGenerateSchema: z.ZodObject<{
     keyPoints: z.ZodOptional<z.ZodArray<z.ZodString, "many">>;
     brandVoice: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    language: string;
     contentType: ContentType;
+    language: string;
     topic: string;
     targetPlatform: Platform;
     style: ScriptStyle;
     tone: "professional" | "casual" | "dramatic" | "humorous" | "inspirational" | "informative";
-    hook?: string | undefined;
     duration?: number | undefined;
+    hook?: string | undefined;
     keyPoints?: string[] | undefined;
     brandVoice?: string | undefined;
 }, {
     contentType: ContentType;
     topic: string;
     targetPlatform: Platform;
-    hook?: string | undefined;
     duration?: number | undefined;
     language?: string | undefined;
     style?: ScriptStyle | undefined;
     tone?: "professional" | "casual" | "dramatic" | "humorous" | "inspirational" | "informative" | undefined;
+    hook?: string | undefined;
     keyPoints?: string[] | undefined;
     brandVoice?: string | undefined;
 }>;
@@ -213,8 +213,8 @@ export declare const imageGenerateSchema: z.ZodObject<{
     model: z.ZodOptional<z.ZodString>;
     count: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
-    prompt: string;
     count: number;
+    prompt: string;
     negativePrompt: string;
     width: number;
     height: number;
@@ -236,8 +236,8 @@ export declare const videoGenerateSchema: z.ZodObject<{
     duration: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
     provider: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    prompt: string;
     duration: number;
+    prompt: string;
     mode: "text_to_video" | "image_to_video";
     provider?: string | undefined;
     imageUrl?: string | undefined;
@@ -277,8 +277,8 @@ export declare const thumbnailGenerateSchema: z.ZodObject<{
     textOverlay: z.ZodOptional<z.ZodString>;
     count: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
 }, "strip", z.ZodTypeAny, {
-    count: number;
     topic: string;
+    count: number;
     style: string;
     includeText: boolean;
     textOverlay?: string | undefined;
@@ -297,16 +297,16 @@ export declare const seoGenerateSchema: z.ZodObject<{
     count: z.ZodDefault<z.ZodNumber>;
 }, "strip", z.ZodTypeAny, {
     language: string;
-    count: number;
     topic: string;
+    count: number;
     platform: Platform;
     script?: string | undefined;
 }, {
     topic: string;
     platform: Platform;
-    script?: string | undefined;
     language?: string | undefined;
     count?: number | undefined;
+    script?: string | undefined;
 }>;
 export declare const composeVideoSchema: z.ZodObject<{
     projectId: z.ZodString;
@@ -321,9 +321,9 @@ export declare const composeVideoSchema: z.ZodObject<{
         width?: number | undefined;
         height?: number | undefined;
     }, {
-        fps?: number | undefined;
         width?: number | undefined;
         height?: number | undefined;
+        fps?: number | undefined;
         codec?: "h264" | "h265" | "vp9" | undefined;
     }>>;
     subtitles: z.ZodOptional<z.ZodObject<{
@@ -359,18 +359,14 @@ export declare const composeVideoSchema: z.ZodObject<{
         type: z.ZodDefault<z.ZodOptional<z.ZodString>>;
         duration: z.ZodDefault<z.ZodOptional<z.ZodNumber>>;
     }, "strip", z.ZodTypeAny, {
-        duration: number;
         type: string;
+        duration: number;
     }, {
-        duration?: number | undefined;
         type?: string | undefined;
+        duration?: number | undefined;
     }>>;
 }, "strip", z.ZodTypeAny, {
     projectId: string;
-    music?: {
-        volume: number;
-        style?: string | undefined;
-    } | undefined;
     subtitles?: {
         style: string;
         enabled: boolean;
@@ -384,16 +380,16 @@ export declare const composeVideoSchema: z.ZodObject<{
         width?: number | undefined;
         height?: number | undefined;
     } | undefined;
+    music?: {
+        volume: number;
+        style?: string | undefined;
+    } | undefined;
     transitions?: {
-        duration: number;
         type: string;
+        duration: number;
     } | undefined;
 }, {
     projectId: string;
-    music?: {
-        style?: string | undefined;
-        volume?: number | undefined;
-    } | undefined;
     subtitles?: {
         style?: string | undefined;
         enabled?: boolean | undefined;
@@ -402,14 +398,18 @@ export declare const composeVideoSchema: z.ZodObject<{
         strokeColor?: string | undefined;
     } | undefined;
     format?: {
-        fps?: number | undefined;
         width?: number | undefined;
         height?: number | undefined;
+        fps?: number | undefined;
         codec?: "h264" | "h265" | "vp9" | undefined;
     } | undefined;
+    music?: {
+        style?: string | undefined;
+        volume?: number | undefined;
+    } | undefined;
     transitions?: {
-        duration?: number | undefined;
         type?: string | undefined;
+        duration?: number | undefined;
     } | undefined;
 }>;
 export declare const publishSchema: z.ZodObject<{
@@ -499,17 +499,17 @@ export declare const paginationSchema: z.ZodObject<{
     sortOrder: z.ZodDefault<z.ZodOptional<z.ZodEnum<["asc", "desc"]>>>;
     search: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
-    limit: number;
     page: number;
+    limit: number;
     sortBy: string;
     sortOrder: "asc" | "desc";
     search?: string | undefined;
 }, {
-    search?: string | undefined;
-    limit?: number | undefined;
     page?: number | undefined;
+    limit?: number | undefined;
     sortBy?: string | undefined;
     sortOrder?: "asc" | "desc" | undefined;
+    search?: string | undefined;
 }>;
 export type ChatMessageInput = z.infer<typeof chatMessageSchema>;
 export type CreateProjectInput = z.infer<typeof createProjectSchema>;

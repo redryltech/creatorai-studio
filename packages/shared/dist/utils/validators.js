@@ -6,8 +6,6 @@
 // ============================================================
 import { z } from 'zod';
 import { ContentType, Platform, AspectRatio, ArtStyle, ScriptStyle, } from '../types/enums';
-// ---- Helpers ----
-const enumValues = (e) => Object.values(e);
 // ---- Chat ----
 export const chatMessageSchema = z.object({
     conversationId: z.string().nullable(),
