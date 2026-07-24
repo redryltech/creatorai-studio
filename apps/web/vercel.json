@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "cd ../.. && npx turbo run build --filter=@creatorai/web",
+  "installCommand": "cd ../.. && npm install -g pnpm && pnpm install",
+  "outputDirectory": ".next",
+  "regions": ["bom1"],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@creatorai_api_url"
+  }
+}

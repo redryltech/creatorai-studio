@@ -1,0 +1,29 @@
+{
+  "name": "@creatorai/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pipeline orchestration engine — intent parsing, plan building, DAG execution",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "dev": "tsc --project tsconfig.json --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@creatorai/shared": "workspace:*",
+    "@creatorai/agents": "workspace:*",
+    "@creatorai/database": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

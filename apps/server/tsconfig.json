@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "declaration": false,
+    "declarationMap": false
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"],
+  "references": [
+    { "path": "../../packages/shared" },
+    { "path": "../../packages/agents" },
+    { "path": "../../packages/providers" },
+    { "path": "../../packages/database" },
+    { "path": "../../packages/orchestrator" }
+  ]
+}

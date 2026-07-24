@@ -1,0 +1,31 @@
+{
+  "name": "@creatorai/agents",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI agents for CreatorAI Studio — each agent is an autonomous content creation capability",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "dev": "tsc --project tsconfig.json --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@creatorai/shared": "workspace:*",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}

@@ -1,0 +1,219 @@
+openapi: 3.1.0
+info:
+  title: CreatorAI Studio API
+  version: 1.0.0
+  description: |
+    AI-powered content creation platform API.
+    Supports natural language commands, multi-agent workflow orchestration,
+    asset management, and multi-platform publishing.
+  contact:
+    name: CreatorAI Studio
+    url: https://creatorai.studio
+
+servers:
+  - url: http://localhost:3001/api/v1
+    description: Local development
+  - url: https://api.creatorai.studio/api/v1
+    description: Production
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Health
+    description: Health checks and readiness probes
+  - name: Chat
+    description: AI chat interface and workflow orchestration
+  - name: Projects
+    description: Project lifecycle management
+  - name: Assets
+    description: Asset CRUD, versions, tags, reviews
+  - name: Workspaces
+    description: Workspace and team management
+  - name: Agents
+    description: Direct AI agent invocation
+  - name: Dashboard
+    description: Platform monitoring and analytics
+  - name: Events
+    description: Server-Sent Events for real-time updates
+
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Liveness check
+      security: []
+      responses:
+        '200':
+          description: Server is running
+
+  /health/ready:
+    get:
+      tags: [Health]
+      summary: Readiness check (all dependencies)
+      security: []
+      responses:
+        '200':
+          description: All systems ready
+        '503':
+          description: One or more dependencies unavailable
+
+  /chat/message:
+    post:
+      tags: [Chat]
+      summary: Send message to AI assistant
+      description: |
+        Parses intent, builds workflow plan, starts async execution.
+        Returns immediately with intent analysis and workflow ID.
+        Subscribe to SSE for real-time progress updates.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [message]
+              properties:
+                conversationId: { type: string, nullable: true }
+                message: { type: string, minLength: 1, maxLength: 4000 }
+                projectId: { type: string }
+      responses:
+        '200':
+          description: Intent parsed and workflow started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: { type: boolean }
+                  data:
+                    type: object
+                    properties:
+                      conversationId: { type: string }
+                      response:
+                        type: object
+                        properties:
+                          content: { type: string }
+                          metadata:
+                            type: object
+                            properties:
+                              intent: { type: object }
+                              workflowRunId: { type: string, nullable: true }
+                              workflowPlan: { type: object, nullable: true }
+
+  /projects:
+    get:
+      tags: [Projects]
+      summary: List user's projects
+      parameters:
+        - name: page
+          in: query
+          schema: { type: integer, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 20, maximum: 100 }
+        - name: status
+          in: query
+          schema: { type: string, enum: [draft, processing, completed, failed, published, archived] }
+      responses:
+        '200':
+          description: Paginated project list
+    post:
+      tags: [Projects]
+      summary: Create a new project
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [title, contentType, targetPlatforms]
+              properties:
+                title: { type: string }
+                contentType: { type: string }
+                targetPlatforms: { type: array, items: { type: string } }
+      responses:
+        '201':
+          description: Project created
+
+  /assets/{id}/versions:
+    post:
+      tags: [Assets]
+      summary: Create new asset version
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [changeDescription]
+              properties:
+                changeDescription: { type: string }
+                data: { type: object }
+      responses:
+        '201':
+          description: Version created
+    get:
+      tags: [Assets]
+      summary: Get version history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Version list
+
+  /events/stream:
+    get:
+      tags: [Events]
+      summary: SSE stream for real-time updates
+      description: |
+        Server-Sent Events endpoint. Events are scoped to the authenticated user.
+        Event types: workflow.started, workflow.completed, workflow.failed,
+        node.started, node.progress, node.completed, node.failed,
+        job.started, job.completed, job.failed
+      parameters:
+        - name: pipelineId
+          in: query
+          schema: { type: string }
+          description: Filter events to this workflow run
+      responses:
+        '200':
+          description: SSE stream established
+          content:
+            text/event-stream: {}
+
+  /dashboard/metrics:
+    get:
+      tags: [Dashboard]
+      summary: Platform metrics summary
+      parameters:
+        - name: period
+          in: query
+          schema: { type: string, enum: [hour, day, week, month], default: day }
+      responses:
+        '200':
+          description: Metrics summary
+
+  /dashboard/health:
+    get:
+      tags: [Dashboard]
+      summary: Full platform health check
+      responses:
+        '200':
+          description: Platform health status
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Firebase ID Token
+      description: Firebase Authentication ID token

@@ -1,0 +1,17 @@
+node_modules
+.next
+.turbo
+dist
+build
+out
+coverage
+.env
+.env.local
+.env.*.local
+*.log
+.git
+.github
+.vscode
+*.md
+docs/
+assets/music/*.mp3

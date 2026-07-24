@@ -1,0 +1,27 @@
+{
+  "name": "@creatorai/providers",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AI provider abstraction layer — hot-swappable AI service integrations",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "dev": "tsc --project tsconfig.json --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "@creatorai/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

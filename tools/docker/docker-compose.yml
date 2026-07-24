@@ -1,0 +1,35 @@
+# ============================================================
+# CreatorAI Studio — Local Development Environment
+# ============================================================
+
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ../..
+      dockerfile: tools/docker/Dockerfile.server
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - CORS_ORIGIN=http://localhost:3000
+    env_file:
+      - ../../.env.local
+    restart: unless-stopped
+
+  # Firebase Emulators for local development
+  firebase-emulator:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ../..:/app
+    command: npx firebase emulators:start --project demo-creatorai
+    ports:
+      - "4000:4000"   # Emulator UI
+      - "8080:8080"   # Firestore
+      - "9099:9099"   # Auth
+      - "9199:9199"   # Storage
+    profiles:
+      - dev
