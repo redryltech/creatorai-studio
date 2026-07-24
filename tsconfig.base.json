@@ -18,7 +18,15 @@
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": false,
     "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true
+    "noImplicitOverride": true,
+    "paths": {
+      "@creatorai/shared": ["packages/shared/src"],
+      "@creatorai/agents": ["packages/agents/src"],
+      "@creatorai/providers": ["packages/providers/src"],
+      "@creatorai/database": ["packages/database/src"],
+      "@creatorai/orchestrator": ["packages/orchestrator/src"],
+      "@creatorai/automation": ["packages/automation/src"]
+    }
   },
   "exclude": ["node_modules", "dist", "build", ".next", "coverage"]
 }
