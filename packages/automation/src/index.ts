@@ -61,8 +61,8 @@ export * from './creator-success/index';
 // AI Thumbnail Generator
 export * from './thumbnail-engine/index';
 
-// AI Video Upscaler
-export * from './video-upscaler/index';
+// AI Video Upscaler (module not present — export removed for tsx runtime)
+// export * from './video-upscaler/index';
 
 // AI Translation Engine
 export * from './translation-engine/index';
