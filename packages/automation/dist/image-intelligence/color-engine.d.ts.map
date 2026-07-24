@@ -1,0 +1,1 @@
+{"version":3,"file":"color-engine.d.ts","sourceRoot":"","sources":["../../src/image-intelligence/color-engine.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,eAAe,CAAC;AACpD,OAAO,KAAK,EAAE,YAAY,EAAE,MAAM,4BAA4B,CAAC;AAY/D,qBAAa,WAAW;IACtB,MAAM,CAAC,OAAO,CAAC,YAAY,CAAC,EAAE,YAAY,GAAG,cAAc;CAU5D"}

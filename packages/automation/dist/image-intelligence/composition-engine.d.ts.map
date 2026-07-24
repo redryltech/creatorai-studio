@@ -1,0 +1,1 @@
+{"version":3,"file":"composition-engine.d.ts","sourceRoot":"","sources":["../../src/image-intelligence/composition-engine.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,gBAAgB,EAAE,MAAM,eAAe,CAAC;AACtD,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,gCAAgC,CAAC;AAEtE,qBAAa,iBAAiB;IAC5B,MAAM,CAAC,OAAO,CAAC,KAAK,EAAE,eAAe,GAAG,gBAAgB;CAezD"}

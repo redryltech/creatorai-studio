@@ -1,0 +1,1 @@
+{"version":3,"file":"spatial-relationship-engine.d.ts","sourceRoot":"","sources":["../../src/scene-graph/spatial-relationship-engine.ts"],"names":[],"mappings":"AAOA,OAAO,KAAK,EAAE,UAAU,EAAa,eAAe,EAAQ,MAAM,qBAAqB,CAAC;AAExF,qBAAa,yBAAyB;IACpC,MAAM,CAAC,OAAO,CAAC,KAAK,EAAE,UAAU,GAAG,eAAe;IAwClD,OAAO,CAAC,MAAM,CAAC,QAAQ;CAGxB"}

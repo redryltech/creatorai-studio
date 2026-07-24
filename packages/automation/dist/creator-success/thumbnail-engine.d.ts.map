@@ -1,0 +1,1 @@
+{"version":3,"file":"thumbnail-engine.d.ts","sourceRoot":"","sources":["../../src/creator-success/thumbnail-engine.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,iBAAiB,EAAE,MAAM,iBAAiB,CAAC;AACzD,qBAAa,eAAe;IAC1B,MAAM,CAAC,OAAO,CAAC,OAAO,EAAE,OAAO,EAAE,UAAU,EAAE,OAAO,EAAE,WAAW,EAAE,OAAO,GAAG,iBAAiB;CAiB/F"}

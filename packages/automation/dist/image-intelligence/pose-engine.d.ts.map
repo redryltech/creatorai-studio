@@ -1,0 +1,1 @@
+{"version":3,"file":"pose-engine.d.ts","sourceRoot":"","sources":["../../src/image-intelligence/pose-engine.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAC;AAU9C,qBAAa,UAAU;IACrB,MAAM,CAAC,OAAO,CAAC,OAAO,EAAE,MAAM,EAAE,eAAe,EAAE,OAAO,GAAG,QAAQ,GAAG,IAAI;CAI3E"}

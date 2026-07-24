@@ -1,0 +1,1 @@
+{"version":3,"file":"scene-graph-exporter.d.ts","sourceRoot":"","sources":["../../src/scene-graph/scene-graph-exporter.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,iBAAiB,EAAE,uBAAuB,EAAc,MAAM,qBAAqB,CAAC;AAElG,qBAAa,kBAAkB;IAC7B,MAAM,CAAC,MAAM,CAAC,GAAG,EAAE,iBAAiB,GAAG,uBAAuB;CA2C/D"}

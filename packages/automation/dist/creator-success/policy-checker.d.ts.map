@@ -1,0 +1,1 @@
+{"version":3,"file":"policy-checker.d.ts","sourceRoot":"","sources":["../../src/creator-success/policy-checker.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,aAAa,EAAE,MAAM,iBAAiB,CAAC;AACrD,qBAAa,aAAa;IACxB,MAAM,CAAC,KAAK,CAAC,KAAK,EAAE,MAAM,EAAE,WAAW,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,GAAG,aAAa,EAAE;CAWjF"}

@@ -1,0 +1,17 @@
+import { generateId, ID_PREFIXES } from '@creatorai/shared';
+export class ImageMemory {
+    static instance = null;
+    entries = [];
+    constructor() { }
+    static getInstance() { if (!ImageMemory.instance)
+        ImageMemory.instance = new ImageMemory(); return ImageMemory.instance; }
+    static resetInstance() { ImageMemory.instance = null; }
+    record(input) {
+        this.entries.push({ id: generateId(ID_PREFIXES.asset), ...input, createdAt: new Date().toISOString() });
+        if (this.entries.length > 500)
+            this.entries = this.entries.slice(-500);
+    }
+    getAll() { return [...this.entries]; }
+    get size() { return this.entries.length; }
+}
+//# sourceMappingURL=image-memory.js.map

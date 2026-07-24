@@ -1,0 +1,1 @@
+{"version":3,"file":"engagement-engine.d.ts","sourceRoot":"","sources":["../../src/creator-success/engagement-engine.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,oBAAoB,EAAE,MAAM,iBAAiB,CAAC;AAC5D,qBAAa,gBAAgB;IAC3B,MAAM,CAAC,OAAO,CAAC,SAAS,EAAE,MAAM,EAAE,cAAc,EAAE,MAAM,EAAE,QAAQ,EAAE,MAAM,EAAE,YAAY,EAAE,MAAM,GAAG,oBAAoB;CAaxH"}

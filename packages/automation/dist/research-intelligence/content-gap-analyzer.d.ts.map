@@ -1,0 +1,1 @@
+{"version":3,"file":"content-gap-analyzer.d.ts","sourceRoot":"","sources":["../../src/research-intelligence/content-gap-analyzer.ts"],"names":[],"mappings":"AAKA,OAAO,KAAK,EAAE,kBAAkB,EAAc,eAAe,EAAE,MAAM,kBAAkB,CAAC;AA6BxF,qBAAa,kBAAkB;IAC7B,MAAM,CAAC,OAAO,CAAC,KAAK,EAAE,MAAM,EAAE,QAAQ,EAAE,eAAe,GAAG,kBAAkB;CAsB7E"}

@@ -1,0 +1,11 @@
+// ============================================================
+// CreatorAI Studio — Enterprise SaaS Domain Types
+// ============================================================
+export const PLAN_CATALOG = {
+    free: { id: 'free', name: 'Free', priceMonthlyUsd: 0, priceYearlyUsd: 0, limits: { storageGb: 1, aiCreditsMonthly: 50, renderingMinutesMonthly: 10, publishingMonthly: 5, teamMembers: 1, concurrentWorkflows: 1, brandProfiles: 1, workspacesCount: 1, apiRequestsDaily: 100, videoQuality: '720p' }, features: ['Basic AI generation', '5 videos/month'] },
+    starter: { id: 'starter', name: 'Starter', priceMonthlyUsd: 19, priceYearlyUsd: 190, limits: { storageGb: 10, aiCreditsMonthly: 200, renderingMinutesMonthly: 60, publishingMonthly: 30, teamMembers: 2, concurrentWorkflows: 2, brandProfiles: 3, workspacesCount: 2, apiRequestsDaily: 1000, videoQuality: '1080p' }, features: ['All Free features', '30 videos/month', 'Priority support'] },
+    pro: { id: 'pro', name: 'Pro', priceMonthlyUsd: 49, priceYearlyUsd: 490, limits: { storageGb: 50, aiCreditsMonthly: 1000, renderingMinutesMonthly: 300, publishingMonthly: 200, teamMembers: 5, concurrentWorkflows: 5, brandProfiles: 10, workspacesCount: 5, apiRequestsDaily: 5000, videoQuality: '1080p' }, features: ['All Starter features', 'Voice cloning', 'AI Memory', 'Analytics'] },
+    business: { id: 'business', name: 'Business', priceMonthlyUsd: 149, priceYearlyUsd: 1490, limits: { storageGb: 200, aiCreditsMonthly: 5000, renderingMinutesMonthly: 1000, publishingMonthly: 1000, teamMembers: 20, concurrentWorkflows: 10, brandProfiles: 50, workspacesCount: 20, apiRequestsDaily: 20000, videoQuality: '4k' }, features: ['All Pro features', 'Team collaboration', 'White label', 'API access'] },
+    enterprise: { id: 'enterprise', name: 'Enterprise', priceMonthlyUsd: 499, priceYearlyUsd: 4990, limits: { storageGb: 1000, aiCreditsMonthly: -1, renderingMinutesMonthly: -1, publishingMonthly: -1, teamMembers: -1, concurrentWorkflows: 20, brandProfiles: -1, workspacesCount: -1, apiRequestsDaily: -1, videoQuality: '4k' }, features: ['Unlimited everything', 'SSO', 'SLA', 'Dedicated support', 'Custom models'] },
+};
+//# sourceMappingURL=enterprise.types.js.map

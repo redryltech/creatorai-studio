@@ -1,0 +1,1 @@
+{"version":3,"file":"trend-analyzer.d.ts","sourceRoot":"","sources":["../../src/research-intelligence/trend-analyzer.ts"],"names":[],"mappings":"AASA,OAAO,KAAK,EAAE,aAAa,EAAe,eAAe,EAAY,MAAM,kBAAkB,CAAC;AAsC9F,qBAAa,aAAa;IACxB;;;;;OAKG;IACH,MAAM,CAAC,OAAO,CAAC,KAAK,EAAE,MAAM,EAAE,QAAQ,EAAE,eAAe,GAAG,aAAa;IAkFvE,+EAA+E;IAC/E,OAAO,CAAC,MAAM,CAAC,aAAa;CAY7B"}

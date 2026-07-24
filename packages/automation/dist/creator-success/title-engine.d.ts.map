@@ -1,0 +1,1 @@
+{"version":3,"file":"title-engine.d.ts","sourceRoot":"","sources":["../../src/creator-success/title-engine.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,aAAa,EAAkB,MAAM,iBAAiB,CAAC;AACrE,qBAAa,WAAW;IACtB,MAAM,CAAC,OAAO,CAAC,KAAK,EAAE,MAAM,EAAE,YAAY,EAAE,MAAM,GAAG,aAAa;CAwBnE"}

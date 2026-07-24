@@ -1,0 +1,1 @@
+{"version":3,"file":"hook-engine.d.ts","sourceRoot":"","sources":["../../src/creator-success/hook-engine.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,YAAY,EAAE,MAAM,iBAAiB,CAAC;AACpD,qBAAa,UAAU;IACrB,MAAM,CAAC,OAAO,CAAC,QAAQ,EAAE,MAAM,EAAE,aAAa,EAAE,MAAM,GAAG,YAAY;CAoBtE"}

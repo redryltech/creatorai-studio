@@ -1,0 +1,1 @@
+{"version":3,"file":"world-state-exporter.d.ts","sourceRoot":"","sources":["../../src/world-state/world-state-exporter.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,iBAAiB,EAAE,uBAAuB,EAAE,MAAM,qBAAqB,CAAC;AAEtF,qBAAa,kBAAkB;IAC7B,MAAM,CAAC,MAAM,CAAC,GAAG,EAAE,iBAAiB,GAAG,uBAAuB;CAmB/D"}
