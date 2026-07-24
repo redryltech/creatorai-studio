@@ -14,11 +14,6 @@ import {
   ScriptStyle,
 } from '../types/enums';
 
-// ---- Helpers ----
-
-const enumValues = <T extends Record<string, string>>(e: T) =>
-  Object.values(e) as [string, ...string[]];
-
 // ---- Chat ----
 
 export const chatMessageSchema = z.object({
