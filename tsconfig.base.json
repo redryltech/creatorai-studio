@@ -19,6 +19,7 @@
     "exactOptionalPropertyTypes": false,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
+    "baseUrl": ".",
     "paths": {
       "@creatorai/shared": ["packages/shared/src"],
       "@creatorai/agents": ["packages/agents/src"],
