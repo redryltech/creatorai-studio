@@ -134,9 +134,14 @@ export class IntentParser {
       ? Math.min(1, Math.max(0, raw.confidence))
       : 0.5;
 
-    const requiresClarification = raw.requiresClarification === true
+    // Never force clarification for casual chat — low confidence there should
+    // still get a conversational reply, not the generic "more details" loop.
+    const requiresClarification = action !== IntentAction.GENERAL_CHAT && (
+      raw.requiresClarification === true
       || confidence < 0.6
-      || (this.isCreationAction(action) && !entities.topic);
+      || (this.isCreationAction(action) && !entities.topic)
+      || missingRequired.length > 0
+    );
 
     const clarificationQuestion = requiresClarification
       ? (raw.clarificationQuestion ?? this.generateClarificationQuestion(action, missingRequired))

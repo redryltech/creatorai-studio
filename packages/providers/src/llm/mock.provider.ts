@@ -51,6 +51,18 @@ export class MockLLMProvider implements ILLMProvider {
   }
 
   private generateMockJSON(prompt: string): string {
+    // Intent parser MUST be checked first.
+    // The intent prompt lists actions like "research_trends", so a later
+    // "research && trends" match would steal every intent parse and return
+    // the wrong JSON shape (action undefined → forced clarification loop).
+    if (
+      prompt.includes('intent parser')
+      || prompt.includes('structured intent')
+      || prompt.includes('parse this user message')
+    ) {
+      return JSON.stringify(this.parseMockIntent(prompt));
+    }
+
     // Research Agent
     if (prompt.includes('research') && prompt.includes('trends')) {
       return JSON.stringify({
@@ -164,23 +176,157 @@ export class MockLLMProvider implements ILLMProvider {
       return JSON.stringify({ genre: "cinematic", mood: "inspirational", tempo: 120, style: "orchestral", instruments: ["piano", "strings"], energyLevel: "medium" });
     }
 
-    // Intent parser
-    if (prompt.includes('intent') || prompt.includes('parse')) {
-      return JSON.stringify({
-        action: "create_video", confidence: 0.95,
-        entities: { topic: "dev mode test", count: 1, contentType: "educational", platform: "youtube_shorts", format: "short", style: "educational", tone: "professional", duration: null, language: "en", voiceId: null, artStyle: null, scheduleDate: null, projectId: null, priority: "normal", additionalInstructions: null },
-        missingRequired: [], requiresClarification: false, clarificationQuestion: null,
-      });
-    }
-
     // Default
     return JSON.stringify({ result: "Dev mode mock response", status: "success" });
+  }
+
+  /**
+   * Heuristic intent parse for development mode (no real LLM key).
+   * Extracts the quoted user message from the intent-parser prompt.
+   */
+  private parseMockIntent(prompt: string): Record<string, unknown> {
+    const quoted = prompt.match(/parse this user message into a structured intent:\s*"([^"]+)"/i);
+    const message = (quoted?.[1] ?? '').trim();
+    const lower = message.toLowerCase();
+
+    const countMatch = lower.match(/\b(\d+)\b/);
+    const count = countMatch ? Math.max(1, Math.min(100, parseInt(countMatch[1]!, 10))) : 1;
+
+    let platform: string | null = null;
+    let format: string | null = null;
+    if (/\byoutube\s*shorts?\b|\bshorts?\b/.test(lower)) {
+      platform = 'youtube_shorts';
+      format = 'short';
+    } else if (/\btiktok\b/.test(lower)) {
+      platform = 'tiktok';
+      format = 'short';
+    } else if (/\breels?\b|\binstagram\b/.test(lower)) {
+      platform = 'instagram_reels';
+      format = 'short';
+    } else if (/\byoutube\b/.test(lower)) {
+      platform = 'youtube';
+      format = 'long';
+    }
+
+    const extractTopic = (patterns: RegExp[]): string | null => {
+      for (const pattern of patterns) {
+        const match = message.match(pattern);
+        if (match?.[1]) {
+          const topic = match[1].trim().replace(/[.!?]+$/, '');
+          if (topic.length >= 2) return topic;
+        }
+      }
+      return null;
+    };
+
+    let action = 'general_chat';
+    let topic: string | null = null;
+    let confidence = 0.9;
+
+    if (/\b(research|search|trends?|trending|topics?)\b/.test(lower)) {
+      action = 'research_trends';
+      topic = extractTopic([
+        /(?:research|search|trends?|trending|topics?)\s+(?:top\s+\d+\s+)?(?:topics?\s+)?(?:on\s+|for\s+|about\s+)?(.+)/i,
+        /(?:top\s+\d+\s+topics?)\s+(.+)/i,
+      ]) ?? (platform ? platform.replace(/_/g, ' ') : 'trending topics');
+    } else if (/\b(ideas?|brainstorm)\b/.test(lower)) {
+      action = 'generate_ideas';
+      topic = extractTopic([/ideas?\s+(?:for|about)\s+(.+)/i, /about\s+(.+)/i]) ?? 'content ideas';
+    } else if (/\b(script)\b/.test(lower)) {
+      action = 'generate_script';
+      topic = extractTopic([/script\s+(?:for|about|on)\s+(.+)/i, /about\s+(.+)/i]);
+    } else if (/\b(thumbnail)\b/.test(lower)) {
+      action = 'create_thumbnail';
+      topic = extractTopic([/thumbnail\s+(?:for|about|on)\s+(.+)/i, /about\s+(.+)/i]);
+    } else if (/\b(image|picture|photo)\b/.test(lower)) {
+      action = 'generate_image';
+      topic = extractTopic([/(?:image|picture|photo)\s+(?:of|about|for)\s+(.+)/i, /about\s+(.+)/i]);
+    } else if (/\b(voiceover|voice\s*over|tts)\b/.test(lower)) {
+      action = 'generate_voiceover';
+      topic = extractTopic([/(?:voiceover|voice\s*over)\s+(?:for|about|on)\s+(.+)/i, /about\s+(.+)/i]);
+    } else if (/\b(seo|title|tags|hashtags)\b/.test(lower)) {
+      action = 'generate_seo';
+      topic = extractTopic([/(?:seo|titles?|tags?)\s+(?:for|about)\s+(.+)/i, /about\s+(.+)/i]);
+    } else if (/\b(create|generate|make|produce|build)\b/.test(lower) && /\b(videos?|shorts?|reels?|clips?)\b/.test(lower)) {
+      action = 'create_video';
+      topic = extractTopic([
+        /(?:create|generate|make|produce|build)\s+(?:\d+\s+)?(?:youtube\s+)?(?:shorts?|videos?|reels?|clips?)\s+(?:about|on|for)\s+(.+)/i,
+        /(?:videos?|shorts?|reels?|clips?)\s+(?:about|on|for)\s+(.+)/i,
+        /(?:create|generate|make)\s+(?:a\s+)?(.+?)\s+videos?/i,
+        /(?:about|on|for)\s+(.+)/i,
+      ]);
+      if (!platform) {
+        platform = 'youtube_shorts';
+        format = 'short';
+      }
+    } else if (/\b(create|generate|make|produce)\b/.test(lower)) {
+      action = 'create_video';
+      topic = extractTopic([
+        /(?:create|generate|make|produce)\s+(?:\d+\s+)?(?:about|on)\s+(.+)/i,
+        /(?:about|on|for)\s+(.+)/i,
+        /(?:create|generate|make|produce)\s+(.+)/i,
+      ]);
+      if (!platform) {
+        platform = 'youtube_shorts';
+        format = 'short';
+      }
+    } else if (/^(hi|hello|hey|helo|how are you|how was the day|thanks|thank you)\b/.test(lower) || lower.length < 12) {
+      action = 'general_chat';
+      confidence = 0.95;
+    }
+
+    const missingRequired: string[] = [];
+    const needsTopic = ['create_video', 'generate_script', 'create_thumbnail', 'generate_image', 'generate_voiceover'].includes(action);
+    if (needsTopic && !topic) {
+      missingRequired.push('topic');
+    }
+
+    const requiresClarification = missingRequired.length > 0;
+    const clarificationQuestion = requiresClarification
+      ? 'What topic would you like the content to be about?'
+      : null;
+
+    return {
+      action,
+      confidence,
+      entities: {
+        topic,
+        count,
+        contentType: action === 'create_video' ? 'educational' : null,
+        platform,
+        format,
+        style: action === 'create_video' ? 'educational' : null,
+        tone: 'professional',
+        duration: null,
+        language: 'en',
+        voiceId: null,
+        artStyle: null,
+        scheduleDate: null,
+        projectId: null,
+        priority: 'normal',
+        additionalInstructions: null,
+      },
+      missingRequired,
+      requiresClarification,
+      clarificationQuestion,
+    };
   }
 
   private generateMockText(prompt: string): string {
     if (prompt.includes('improve') || prompt.includes('evolve')) {
       return "A dramatic cinematic shot of advanced technology, photorealistic, 8K resolution, dramatic lighting, blue and gold color grading, professional photography, ultra detailed";
     }
-    return "This is a development mode response. The full AI pipeline is working correctly. Configure API keys for real content generation.";
+
+    // Respond to the actual user message for general chat
+    const lastUser = prompt.match(/(?:^|\s)(hi|hello|hey|helo|how are you|how was the day|thanks|thank you)[\s!?.]*$/i)
+      ?? prompt.match(/content:\s*([^\n]+)$/i);
+    const msg = (lastUser?.[1] ?? '').toLowerCase();
+    if (/^(hi|hello|hey|helo)\b/.test(msg)) {
+      return "Hello! I'm CreatorAI Studio. I can help you create videos, scripts, thumbnails, and more. Try: \"Generate a car video\" or \"Search top YouTube topics\".";
+    }
+    if (/how (are you|was the day)/.test(msg) || prompt.includes('how was the day') || prompt.includes('how are you')) {
+      return "I'm doing well — ready to create content with you. What would you like to make today? For example: \"Create 5 YouTube Shorts about electric cars\".";
+    }
+    return "I'm here to help you create content. Try commands like \"Generate a car video\", \"Research trending YouTube topics\", or \"Write a script about AI\".";
   }
 }
