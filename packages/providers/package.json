@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "dev": "tsc --project tsconfig.json --watch",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && find src -type f \\( -name '*.js' -o -name '*.js.map' -o -name '*.d.ts' -o -name '*.d.ts.map' \\) -delete",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src/"
   },
